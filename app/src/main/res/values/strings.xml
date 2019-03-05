@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Cryption</string>
+    <string name="Url_of_app">https://play.google.com/store/apps/details?id=com.rotibank.mumbai.donate</string>
+    <string name="update_message">Please update the application before using.</string>
+    <string name="about_menu">About</string>
+    <string name="credit_menu">Credits</string>
+    <string-array name="types_of_encryption_available">
+        <item>Morse Code</item>
+        <item>ROT - 13</item>
+    </string-array>
+
+
+</resources>
