@@ -4,8 +4,10 @@
     <string name="update_message">Please update the application before using.</string>
     <string name="about_menu">About</string>
     <string name="credit_menu">Credits</string>
+    <string name="type_of_encryption">Type of Encryption</string>
     <string-array name="types_of_encryption_available">
-        <item>Morse Code</item>
+        <!--<item>Morse Code</item>-->
+        <item>Caesar Shift</item>
         <item>ROT - 13</item>
     </string-array>
 

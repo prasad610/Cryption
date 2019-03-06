@@ -1,8 +1,11 @@
 package org.prasad.cryption;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,7 +18,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class MorseCode extends AppCompatActivity {
     TextView tv;
@@ -26,11 +35,19 @@ public class MorseCode extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_morse_code);
         tv = findViewById(R.id.textvieew);
-        if (!updateApp("https://play.google.com/store/apps/details","com.rotibank.mumbai.donate")) {
-            main();
+        try {
+            String s = new versionChecker().execute().get();
+            tv.setText(s);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
+//        if (!updateApp("https://play.google.com/store/apps/details","com.rotibank.mumbai.donate")) {
+//            main();
+//        }
     }
+
 
     private void main() {
         // Access a Cloud Firestore instance from your Activity
@@ -70,5 +87,24 @@ public class MorseCode extends AppCompatActivity {
             }
         });
         return false;
+    }
+}
+class versionChecker extends AsyncTask<String, String, String> {
+    String newVersion;
+    private String latestVersion;
+
+    @Override
+    protected String doInBackground(String... params) {
+
+        try {
+
+            Document doc = Jsoup.connect("https://play.google.com/store/apps/details?id=com.rotibank.mumbai.donate&hl=en").get();
+            latestVersion = doc.getElementsByClass("htlgb").get(6).text();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return latestVersion;
     }
 }
