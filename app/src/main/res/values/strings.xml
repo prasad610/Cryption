@@ -5,7 +5,11 @@
     <string name="about_menu">About</string>
     <string name="credit_menu">Credits</string>
     <string name="type_of_encryption">Type of Encryption</string>
-    <string-array name="types_of_encryption_available">
+    <string name="enter_message">Enter Message</string>
+    <string name="encrypt">Encrypt</string>
+    <string name="enter_key">Enter Key</string>
+    <string name="submit">Submit</string>
+    <string-array name="encryptions">
         <!--<item>Morse Code</item>-->
         <item>Caesar Shift</item>
         <item>ROT - 13</item>

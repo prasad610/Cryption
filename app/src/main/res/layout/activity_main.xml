@@ -12,20 +12,19 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/drawer_view"
-        app:headerLayout="@layout/nav_header"/>
+        app:menu="@menu/drawer_view" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ExpandableListView
+
+        <ListView
             android:id="@+id/type_of_encryption"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-            android:divider="@android:color/darker_gray"
-            android:dividerHeight="0.5dp"
+            android:layout_height="match_parent"
+            android:entries="@array/encryptions"
             />
 
     </RelativeLayout>

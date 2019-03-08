@@ -1,56 +1,63 @@
 package org.prasad.cryption;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
-public class Ciphers
+class Ciphers
 {
-    private String cipher="";
+    private StringBuilder stringBuilder;
 
-    public String MorseCode(String plain_text)
-    {
-        plain_text = plain_text.toLowerCase();
+//    public String MorseCode(String plain_text)
+//    {
+//        plain_text = plain_text.toLowerCase();
 //        for(char letter : plain_text.toCharArray())
 //        {
 //
 //        }
-        return cipher;
-    }
+//        return stringBuilder.toString();
+//    }
 
-    String CasearCipher(String plain_text, int shift, String mode)
+    String CasearCipher(Context context, String plain_text, int shift)
     {
-        int new_ascii = 0;
+
+        int new_ascii;
         plain_text = plain_text.toUpperCase();
         for(char letter : plain_text.toCharArray())
         {
+            stringBuilder = new StringBuilder();
             int ascii=(int)letter;
-            if( ascii < 65 )
+            //noinspection ConstantConditions
+            if( ascii!=20 && (ascii<48 && ascii>90))
             {
                 Log.e("Invalid character", "character = '"+String.valueOf(letter)+"'");
-                return "Plain text contains invalid character.";
+                Toast.makeText(context, "Plain text contains invalid character.", Toast.LENGTH_SHORT).show();
             }
 
-            switch (mode){
-                case "encrypt":
-                    new_ascii = ascii + shift;
-                    break;
-                case "decrypt":
-                    new_ascii = ascii - shift;
-                    break;
-                default:
-                    Log.e("Switch case","Line 41 mode neither encrypt nor decrypt");
-            }
+            new_ascii = ascii + shift;
             while ( new_ascii > 91 ){
                 new_ascii = new_ascii % 90 + 65;
             }
-            cipher = cipher + (char) new_ascii;
+            stringBuilder.append((char) new_ascii);
         }
 
-        return cipher;
+        return stringBuilder.toString();
     }
 
-    public String SubstitutionCipher(String plain_text, String key)
+    String SubstitutionCipher(String plain_text, String key, boolean mode)
     {
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+        stringBuilder = new StringBuilder();
+        for(char letter : plain_text.toLowerCase().toCharArray())
+        {
+            if(mode) {
+                stringBuilder.append(alphabet.substring(key.indexOf(letter), key.indexOf(letter)+1));
+            }
+            else {
+                stringBuilder.append(key.substring(alphabet.indexOf(letter),alphabet.indexOf(letter)+1));
+            }
+        }
 
-        return cipher;
+        return stringBuilder.toString();
     }
 }
