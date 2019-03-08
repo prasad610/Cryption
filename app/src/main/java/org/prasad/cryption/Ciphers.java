@@ -23,9 +23,9 @@ class Ciphers
 
         int new_ascii;
         plain_text = plain_text.toUpperCase();
-        for(char letter : plain_text.toCharArray())
+        stringBuilder = new StringBuilder();
+        for(char letter : plain_text.toUpperCase().toCharArray())
         {
-            stringBuilder = new StringBuilder();
             int ascii=(int)letter;
             //noinspection ConstantConditions
             if( ascii!=20 && (ascii<48 && ascii>90))
@@ -36,11 +36,10 @@ class Ciphers
 
             new_ascii = ascii + shift;
             while ( new_ascii > 91 ){
-                new_ascii = new_ascii % 90 + 65;
+                new_ascii = new_ascii % 90 + 64;
             }
             stringBuilder.append((char) new_ascii);
         }
-
         return stringBuilder.toString();
     }
 

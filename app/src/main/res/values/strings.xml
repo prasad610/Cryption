@@ -9,10 +9,12 @@
     <string name="encrypt">Encrypt</string>
     <string name="enter_key">Enter Key</string>
     <string name="submit">Submit</string>
+    <string name="Open">Open</string>
+    <string name="Close">close</string>
     <string-array name="encryptions">
         <!--<item>Morse Code</item>-->
-        <item>Caesar Shift</item>
-        <item>ROT - 13</item>
+        <item>Caesar Cipher</item>
+        <item>Substitution Cipher</item>
     </string-array>
 
 

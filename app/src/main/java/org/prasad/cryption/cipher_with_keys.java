@@ -14,6 +14,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
 public class cipher_with_keys extends AppCompatActivity {
     private EditText message_box, key_box;
     private String message, key, s;
@@ -21,6 +26,7 @@ public class cipher_with_keys extends AppCompatActivity {
     private boolean mode;
     private Button submit;
     private TextView content, answer;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +34,10 @@ public class cipher_with_keys extends AppCompatActivity {
         setContentView(R.layout.activity_cipher_with_keys);
         ActionBar toolbar = getSupportActionBar();
         if (toolbar != null) {
-            toolbar.setTitle("Substitution");
+            toolbar.setTitle(getIntent().getStringExtra("cipher"));
             toolbar.setDisplayHomeAsUpEnabled(true);
         }
+
         message_box = findViewById(R.id.id_cipher_text);
         key_box = findViewById(R.id.id_key);
         switchbutton = findViewById(R.id.mode);
@@ -88,11 +95,50 @@ public class cipher_with_keys extends AppCompatActivity {
                 mode = switchbutton.isChecked();
                 key_box.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 message_box.onEditorAction(EditorInfo.IME_ACTION_DONE);
-                if(changed()) {
-                    callCipher(message, key, mode);
+                if(!changed()) {
+                    System.exit(0);
                 }
+                callCipher(message, key, mode,getIntent().getStringExtra("cipher"));
             }
         });
+
+
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
+        AdSize adSize = new AdSize(400, 50);
+
     }
 
     @Override
@@ -101,23 +147,26 @@ public class cipher_with_keys extends AppCompatActivity {
         return true;
     }
 
-    private void callCipher(String message, String i, boolean mode) {
+    private void callCipher(String message, String i, boolean mode,String cipher) {
         Ciphers ciphers = new Ciphers();
-//        if (mode)
-//        {
-//            changed();
-//            s ="\nDecrypted message = "+ciphers.CasearCipher(this,message,-Integer.parseInt(i));
-//            answer.setText(s);
-//        }
-//        else
-//        {
-//            changed();
-//            s ="\nEncrypted message = "+ciphers.CasearCipher(this,message,Integer.parseInt(i));
-//            answer.setText(s);
-//        }
-        s="Message = "+ciphers.SubstitutionCipher(message,key.toLowerCase(),mode);
-        answer.setText(s);
-
+        if(cipher.equals("Casear Cipher")) {
+            if (mode)
+            {
+                changed();
+                s ="\nDecrypted message = "+ciphers.CasearCipher(this,message,-Integer.parseInt(i));
+                answer.setText(s);
+            }
+            else
+            {
+                changed();
+                s ="\nEncrypted message = "+ciphers.CasearCipher(this,message,Integer.parseInt(i));
+                answer.setText(s);
+            }
+        }
+        else if(cipher.equals("Substitution Cipher")) {
+            s="Message = "+ciphers.SubstitutionCipher(message,key.toLowerCase(),mode);
+            answer.setText(s);
+        }
     }
 
     private boolean changed() {
@@ -130,8 +179,8 @@ public class cipher_with_keys extends AppCompatActivity {
             return false;
         }
         else if(key.isEmpty()){
-            Toast.makeText(this, "Key can't be empty", Toast.LENGTH_SHORT).show();
             submit.setClickable(false);
+            Toast.makeText(this, "Key can't be empty", Toast.LENGTH_SHORT).show();
             return false;
         }
         else
